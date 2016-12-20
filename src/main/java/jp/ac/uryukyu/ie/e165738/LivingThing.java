@@ -8,7 +8,7 @@ package jp.ac.uryukyu.ie.e165738;
  *  boolean dead; //生死状態。true=死亡。
  * Created by tnal on 2016/11/13.
  */
-public class LivingThing {
+public abstract class LivingThing {
     private String name;
     private int hitPoint;
     private int attack;
@@ -56,10 +56,17 @@ public class LivingThing {
         // 自分が死んでいたら、攻撃しない。（生きているなら攻撃する。）
         if(isDead() == false) {
             int damage = (int) (Math.random() * attack);
-            System.out.printf("%sの攻撃！%sに%dのダメージを与えた！！\n", name, opponent.getName(), damage);
+            System.out.printf("%sの攻撃!", name);
+            damage = attack_options(damage, opponent);
+
             opponent.wounded(damage);
         }
     }
+    /*
+    * attackに自由に機能を追加するためのメソッド。
+    *
+    */
+    public abstract int attack_options(int damage, LivingThing opponent);
 
     /**
      * 自身へ攻撃されたときのダメージ処理をするメソッド。
@@ -68,7 +75,7 @@ public class LivingThing {
      */
     public void wounded(int damage){
         hitPoint -= damage;
-        if( hitPoint < 0 ) {
+        if( hitPoint <= 0 ) {
             dead = true;
             announce();
         }
@@ -79,5 +86,5 @@ public class LivingThing {
      * 異なっているので、その違いを吸収するために、
      * オーバーライドを利用。
      */
-    public void announce(){}
+    public abstract void announce();
 }

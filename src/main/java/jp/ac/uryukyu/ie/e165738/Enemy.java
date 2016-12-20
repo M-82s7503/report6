@@ -1,5 +1,7 @@
 package jp.ac.uryukyu.ie.e165738;
 
+import java.util.Random;
+
 /**
  * 敵クラス。
  *  String name; //敵の名前
@@ -17,6 +19,24 @@ public class Enemy extends LivingThing {
      */
     public Enemy (String name, int maximumHP, int attack) {
         super(name, maximumHP, attack);
+    }
+
+    @Override
+    public int attack_options(int damage, LivingThing opponent) {
+        //Randomクラスのインスタンス化
+        Random rnd = new Random();
+        int feeling = rnd.nextInt(10);
+
+        if (damage == 0){
+            System.out.printf(",,,だが、%sは攻撃を回避した！\n", opponent.getName());
+        }else{
+            if(feeling > 7){    // 乱数（0~9の整数）のうち、8か9が出たら2倍
+                damage = damage*2;
+                System.out.printf("痛恨の一撃！！");
+            }
+            System.out.printf("%sに%dのダメージを与えた！！\n", opponent.getName(), damage);
+        }
+        return damage;
     }
 
     /**
